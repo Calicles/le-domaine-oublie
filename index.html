@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Domaine oublié · The Forgotten Domain</title>
+<meta name="description" content="Addon d’aventure Minecraft Bedrock pour jouer à quatre en écran partagé, en famille. A Minecraft Bedrock adventure add-on for four-player split screen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500..800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#17131A; --nuit2:#211C24; --nuit3:#2E2530;
+  --parchemin:#F3E7CC; --parchemin2:#FBF5E6; --bord:#D9C49A;
+  --encre:#2A2228; --encre2:#4A3F3A; --rouge:#6E1518; --rouge2:#8E1B1E;
+  --or:#C9972E; --or-clair:#E8B84A; --or-sombre:#7A5814; --texte-nuit:#E3D5B5; --gris:#A89A82;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--parchemin);color:var(--encre);font-family:'Nunito Sans',Arial,sans-serif;font-size:18px;line-height:1.55}
+html[lang="fr"] .en, html[lang="en"] .fr{display:none !important}
+h1,h2,h3{font-family:'Cinzel',Georgia,serif;line-height:1.15;margin:0}
+p{margin:0}
+img{max-width:100%;display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+section{padding:88px 0}
+.sombre{background:var(--nuit);color:var(--parchemin)}
+.sur-titre{font-size:14px;letter-spacing:4px;text-transform:uppercase;font-weight:700;color:var(--or-sombre);margin-bottom:14px}
+.sombre .sur-titre{color:var(--or)}
+h2{font-size:clamp(30px,4.5vw,46px);color:var(--rouge);margin-bottom:28px}
+.sombre h2{color:var(--parchemin)}
+.intro{font-size:20px;color:var(--encre2);max-width:760px}
+.sombre .intro{color:var(--texte-nuit)}
+
+/* barre */
+.barre{position:sticky;top:0;z-index:10;background:rgba(23,19,26,.92);backdrop-filter:blur(6px);border-bottom:1px solid #3a3040}
+.barre .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+.marque{font-family:'Cinzel',Georgia,serif;color:var(--parchemin);font-weight:700;text-decoration:none;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.langues{display:flex;gap:4px}
+.langues button{background:transparent;border:1px solid #5a4a3a;color:var(--texte-nuit);font:600 14px 'Nunito Sans',Arial,sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer}
+.langues button[aria-pressed="true"]{background:var(--or);border-color:var(--or);color:var(--nuit)}
+
+/* hero */
+.hero{background:radial-gradient(ellipse at 50% 35%,var(--nuit3) 0%,var(--nuit) 75%);color:var(--parchemin);text-align:center;padding:120px 0 110px}
+.hero .sur-titre{color:var(--or)}
+.hero h1{font-size:clamp(42px,8vw,92px);font-weight:700}
+.filet{width:220px;height:3px;margin:28px auto;background:linear-gradient(90deg,var(--rouge2),var(--or),var(--rouge2))}
+.hero p.accroche{font-size:clamp(19px,2.4vw,24px);color:var(--texte-nuit);max-width:760px;margin:0 auto}
+.bouton{display:inline-block;margin-top:36px;background:var(--rouge2);color:var(--parchemin);border:2px solid var(--or);padding:14px 28px;border-radius:8px;font:700 17px 'Nunito Sans',Arial,sans-serif;text-decoration:none;cursor:pointer}
+.bouton:hover{background:var(--rouge)}
+
+/* cartes */
+.grille{display:grid;gap:22px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.carte{background:var(--parchemin2);border:2px solid var(--bord);border-radius:12px;padding:26px}
+.carte h3{font-size:21px;color:var(--rouge);margin-bottom:8px}
+.carte p{color:var(--encre2)}
+.carte.rouge{border-top:7px solid var(--rouge2)}
+.carte.or{border-top:7px solid var(--or)}
+.num{font-family:'Cinzel',Georgia,serif;font-size:40px;color:var(--or);font-weight:700;line-height:1;margin-bottom:10px}
+.citation{font-family:'Cinzel',Georgia,serif;font-size:clamp(30px,5vw,54px);color:var(--rouge);font-weight:700;margin-bottom:26px}
+
+/* chiffres */
+.chiffre{border-top:3px solid var(--or);padding-top:16px}
+.chiffre b{display:block;font-family:'Cinzel',Georgia,serif;font-size:clamp(36px,5vw,54px);color:var(--or-clair);line-height:1.05;white-space:nowrap}
+.chiffre span{color:#D8CBB0}
+.source{margin-top:28px;font-size:15px;color:var(--gris)}
+
+/* tableau */
+.tableau{width:100%;border-collapse:collapse;color:var(--texte-nuit)}
+.tableau th{text-align:left;color:var(--or-clair);background:var(--nuit3);padding:14px 16px;font-family:'Cinzel',Georgia,serif;font-size:16px}
+.tableau td{padding:16px;border-bottom:1px solid #3a3040;vertical-align:top}
+.tableau tr:nth-child(even) td{background:var(--nuit2)}
+.tableau td:first-child{font-weight:700;color:var(--parchemin);width:26%}
+
+/* médias */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.figure{border-radius:12px;overflow:hidden;border:2px solid var(--bord);background:#1d1920}
+.sombre .figure{border-color:#3a3040}
+figcaption{font-size:15px;color:var(--gris);margin-top:10px}
+.liste p{margin-bottom:16px}
+.liste b{color:var(--encre)}
+.sombre .liste b{color:var(--or-clair)}
+.galerie{display:grid;grid-template-columns:3fr 2fr;gap:22px;align-items:start}
+.galerie .pile{display:grid;gap:22px}
+.clair-fond{background:#C9C3B6}
+
+/* contact */
+.contact{text-align:center}
+.contact .intro{margin:0 auto}
+footer{background:var(--nuit);color:var(--gris);font-size:14px;text-align:center;padding:28px 20px;border-top:1px solid #3a3040}
+
+@media (max-width:860px){
+  section{padding:64px 0}
+  .g3,.g4{grid-template-columns:1fr 1fr}
+  .duo,.galerie,.g2{grid-template-columns:1fr}
+  .tableau td:first-child{width:auto}
+}
+@media (max-width:540px){
+  .g3,.g4{grid-template-columns:1fr}
+  .tableau, .tableau tbody, .tableau tr, .tableau td{display:block;width:100%}
+  .tableau tr:first-child{display:none}
+  .tableau td{border-bottom:none;padding:6px 14px}
+  .tableau tr{border-bottom:1px solid #3a3040;padding:10px 0}
+  .tableau tr:nth-child(even) td{background:transparent}
+}
+</style>
+</head>
+<body>
+
+<nav class="barre">
+  <div class="wrap">
+    <a class="marque" href="#haut"><span class="fr">Le Domaine oublié</span><span class="en">The Forgotten Domain</span></a>
+    <div class="langues" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="haut">
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">Addon d’aventure · Minecraft Bedrock</span><span class="en">Adventure add-on · Minecraft Bedrock</span></p>
+    <h1><span class="fr">Le Domaine oublié</span><span class="en">The Forgotten Domain</span></h1>
+    <div class="filet"></div>
+    <p class="accroche fr">Une aventure de jeu de rôle en quatre chapitres, conçue pour jouer <b>à quatre en écran partagé</b>, en famille.</p>
+    <p class="accroche en">A four-chapter role-playing adventure, designed for <b>four players in split screen</b>, as a family.</p>
+    <a class="bouton" href="#contact"><span class="fr">Me contacter</span><span class="en">Get in touch</span></a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">Le constat</span><span class="en">The problem</span></p>
+    <p class="citation"><span class="fr">« Beaucoup trop grand et beaucoup trop vide. »</span><span class="en">“Way too big and way too empty.”</span></p>
+    <p class="intro fr">C’est le point de départ : une famille de quatre (deux adultes, deux enfants de 9 et 13 ans) qui joue à Minecraft sur Switch, en écran partagé. Les soirées finissaient chacun dans son coin, ou à miner sans but.</p>
+    <p class="intro en">That is where it started: a family of four (two adults, two children aged 9 and 13) playing Minecraft on Switch in split screen. Evenings ended with everyone off on their own, or just mining with no goal.</p>
+    <div class="grille g3" style="margin-top:36px">
+      <div class="carte"><h3><span class="fr">On s’éparpille</span><span class="en">The group drifts apart</span></h3><p class="fr">Rien ne retient le groupe ensemble : chacun part de son côté.</p><p class="en">Nothing keeps the players together: each one wanders off.</p></div>
+      <div class="carte"><h3><span class="fr">On marche sans rien trouver</span><span class="en">Walking, finding nothing</span></h3><p class="fr">Le monde est immense, et on ne sait pas quoi y faire.</p><p class="en">The world is huge, and there is no clear thing to do.</p></div>
+      <div class="carte"><h3><span class="fr">Les villageois ne racontent rien</span><span class="en">Villagers have no stories</span></h3><p class="fr">Il n’y a ni histoire, ni quête, ni personnage à qui parler.</p><p class="en">No story, no quests, no characters to talk to.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--parchemin2);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)">
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">Le concept</span><span class="en">The concept</span></p>
+    <h2><span class="fr">Restaurer un domaine en ruine, pièce par pièce</span><span class="en">Restore a ruined estate, room by room</span></h2>
+    <div class="grille g4">
+      <div class="carte"><p class="num">1</p><h3><span class="fr">Une quête de groupe</span><span class="en">A group quest</span></h3><p class="fr">Un habitant confie une mission : ruines, énigmes, monstres.</p><p class="en">A resident gives a mission: ruins, puzzles, monsters.</p></div>
+      <div class="carte"><p class="num">2</p><h3><span class="fr">Des ressources</span><span class="en">Resources</span></h3><p class="fr">Matériaux, meubles et objets spéciaux pour la suite.</p><p class="en">Materials, furniture and special items for what comes next.</p></div>
+      <div class="carte"><p class="num">3</p><h3><span class="fr">Une pièce restaurée</span><span class="en">A room restored</span></h3><p class="fr">Le coffre rempli, la pièce se reconstruit d’elle-même, décorée.</p><p class="en">Once its chest is filled, the room rebuilds itself, fully decorated.</p></div>
+      <div class="carte"><p class="num">4</p><h3><span class="fr">Un nouvel habitant</span><span class="en">A new resident</span></h3><p class="fr">Il arrive en fanfare… et confie la quête suivante.</p><p class="en">They arrive with a fanfare… and give the next quest.</p></div>
+    </div>
+    <p class="intro fr" style="margin-top:32px">L’aventure et la construction se nourrissent l’une l’autre. Le domaine devient le <b>QG commun</b> qui garde le groupe ensemble, d’un chapitre à l’autre.</p>
+    <p class="intro en" style="margin-top:32px">Adventure and building feed each other. The estate becomes the <b>shared base</b> that keeps the group together, from one chapter to the next.</p>
+  </div>
+</section>
+
+<section class="sombre">
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">Ce qui existe déjà</span><span class="en">Already built</span></p>
+    <h2><span class="fr">Un contenu de la taille d’un jeu</span><span class="en">Content on the scale of a full game</span></h2>
+    <div class="grille g4">
+      <div class="chiffre"><b>4</b><span class="fr">chapitres d’aventure, plus le zoo du dragon</span><span class="en">adventure chapters, plus the dragon zoo</span></div>
+      <div class="chiffre"><b>91</b><span class="fr">entités : habitants, créatures, boss</span><span class="en">entities: residents, creatures, bosses</span></div>
+      <div class="chiffre"><b>95</b><span class="fr">objets, armes, armures et sorts</span><span class="en">items, weapons, armour and spells</span></div>
+      <div class="chiffre"><b>220</b><span class="fr">textures pixel art, 59 modèles 3D</span><span class="en">pixel-art textures, 59 3D models</span></div>
+      <div class="chiffre"><b class="fr">2 578</b><b class="en">2,578</b><span class="fr">lignes de dialogues et de textes en français</span><span class="en">lines of dialogue and text (French)</span></div>
+      <div class="chiffre"><b class="fr">45 000</b><b class="en">45,000</b><span class="fr">lignes de script (Script API officielle)</span><span class="en">lines of script (official Script API)</span></div>
+      <div class="chiffre"><b>52</b><span class="fr">recettes de fabrication, 17 blocs</span><span class="en">crafting recipes, 17 blocks</span></div>
+      <div class="chiffre"><b>200+</b><span class="fr">scénarios de test automatiques</span><span class="en">automated test scenarios</span></div>
+    </div>
+    <p class="source"><span class="fr">Version 1.96.4 de l’addon.</span><span class="en">Add-on version 1.96.4.</span></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">Les différenciants</span><span class="en">What sets it apart</span></p>
+    <h2><span class="fr">Ce qu’aucun pack n’offre en même temps</span><span class="en">What no single pack offers today</span></h2>
+    <div class="grille g3">
+      <div class="carte rouge"><h3><span class="fr">Écran partagé à 4</span><span class="en">Four-player split screen</span></h3><p class="fr">Pensé pour quatre joueurs sur une seule console : textes lisibles sur un quart d’écran, objectifs communs.</p><p class="en">Built for four players on one console: text readable on a quarter of the screen, shared goals.</p></div>
+      <div class="carte rouge"><h3><span class="fr">Aventure + construction</span><span class="en">Adventure + building</span></h3><p class="fr">Les quêtes rebâtissent le domaine, le domaine débloque les quêtes. Des pièces entières se construisent sous vos yeux.</p><p class="en">Quests rebuild the estate; the estate unlocks quests. Whole rooms build themselves before your eyes.</p></div>
+      <div class="carte rouge"><h3><span class="fr">Jamais d’effet vide</span><span class="en">Never an empty moment</span></h3><p class="fr">Une découverte toutes les 1 à 2 minutes ; chaque salle a son décor et au moins une chose à faire.</p><p class="en">A discovery every 1 to 2 minutes; every room has its decor and at least one thing to do.</p></div>
+      <div class="carte or"><h3><span class="fr">Des donjons de jeu de rôle</span><span class="en">Role-playing dungeons</span></h3><p class="fr">Énigmes, pièges, boss en plusieurs phases, zones indestructibles : une vraie expérience de donjon.</p><p class="en">Puzzles, traps, multi-phase bosses, indestructible zones: a real dungeon experience.</p></div>
+      <div class="carte or"><h3><span class="fr">Des personnages qui parlent</span><span class="en">Characters who talk</span></h3><p class="fr">Habitants, alliés et méchants « de théâtre », avec un ton drôle et épique, adapté dès 9 ans.</p><p class="en">Residents, allies and pantomime villains, with a funny yet epic tone, suitable from age 9.</p></div>
+      <div class="carte or"><h3><span class="fr">Une raison de revenir</span><span class="en">A reason to come back</span></h3><p class="fr">Sorts du jour, potions, minerais livrés chaque matin, quêtes aléatoires sans fin.</p><p class="en">Daily spells, potions, ore delivered every morning, endless random quests.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--parchemin2);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)">
+  <div class="wrap duo">
+    <div>
+      <p class="sur-titre"><span class="fr">Différenciant n° 1</span><span class="en">Key differentiator</span></p>
+      <h2><span class="fr">Conçu pour le canapé, à quatre</span><span class="en">Made for the sofa, four at a time</span></h2>
+      <div class="liste">
+        <p class="fr"><b>Une liste commune.</b> N’importe quel joueur remplit n’importe quel objectif ; l’avancement est partagé.</p>
+        <p class="en"><b>One shared checklist.</b> Any player can complete any objective; progress belongs to the group.</p>
+        <p class="fr"><b>Des récompenses pour chacun.</b> Un butin commun au domaine, un souvenir personnel par joueur, gardé pour les absents.</p>
+        <p class="en"><b>Rewards for everyone.</b> Shared loot at the estate, a personal keepsake for each player, kept for absent ones.</p>
+        <p class="fr"><b>Toujours savoir où aller.</b> Une ligne d’objectif discrète (direction et distance) et un carnet d’aventure.</p>
+        <p class="en"><b>Always know where to go.</b> A discreet objective line (direction and distance) and an adventure journal.</p>
+        <p class="fr"><b>Lisible sur un quart d’écran.</b> Titres, dialogues et fenêtres habillés de parchemin, rouge et or.</p>
+        <p class="en"><b>Readable on a quarter screen.</b> Titles, dialogues and windows dressed in parchment, red and gold.</p>
+      </div>
+    </div>
+    <figure style="margin:0">
+      <div class="figure"><img src="images/planche_2_dialogue.png" width="1280" height="720" loading="lazy" alt="Maquette de la fenêtre de dialogue : cadre parchemin à entrelacs rouge et or, dragon en enluminure / Dialogue window mock-up: parchment frame with red and gold knotwork and an illuminated dragon"></div>
+      <figcaption><span class="fr">Maquette de l’habillage des dialogues.</span><span class="en">Dialogue skin mock-up (French text).</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sombre">
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">L’aventure</span><span class="en">The adventure</span></p>
+    <h2><span class="fr">Quatre chapitres, quatre mondes</span><span class="en">Four chapters, four worlds</span></h2>
+    <table class="tableau">
+      <tr><th><span class="fr">Chapitre</span><span class="en">Chapter</span></th><th><span class="fr">Le monde</span><span class="en">The world</span></th><th><span class="fr">Le grand final</span><span class="en">The finale</span></th></tr>
+      <tr><td><span class="fr">1. Le Domaine oublié</span><span class="en">1. The Forgotten Domain</span></td><td><span class="fr">Un domaine médiéval à restaurer, quatre habitants, ruines alentour</span><span class="en">A medieval estate to restore, four residents, ruins all around</span></td><td><span class="fr">Le Gardien de la ruine maudite</span><span class="en">The Guardian of the cursed ruin</span></td></tr>
+      <tr><td><span class="fr">2. Au-delà du brouillard</span><span class="en">2. Beyond the Mist</span></td><td><span class="fr">Région gothique : marais, forêt des loups, cimetière, château-donjon</span><span class="en">A gothic region: swamp, wolf forest, graveyard, castle dungeon</span></td><td><span class="fr">Le vampire, combat en phases ; licornes à monter</span><span class="en">The vampire, a multi-phase fight; unicorns to ride</span></td></tr>
+      <tr><td><span class="fr">3. La Grande Forge</span><span class="en">3. The Great Forge</span></td><td><span class="fr">Cité naine gelée sous la montagne, descente en trois étages</span><span class="en">A frozen dwarf city under the mountain, a three-level descent</span></td><td><span class="fr">Braisombre, le dragon de lave</span><span class="en">Embershade, the lava dragon</span></td></tr>
+      <tr><td><span class="fr">4. Arrick, le village maudit <i>(en cours)</i></span><span class="en">4. Arrick, the Cursed Village <i>(in progress)</i></span></td><td><span class="fr">Forêt de pleine lune, tour d’Igor, labyrinthe, champs, village</span><span class="en">Full-moon forest, Igor’s tower, maze, fields, village</span></td><td><span class="fr">Jack’o Lantern, dans son manoir</span><span class="en">Jack o’ Lantern, in his manor</span></td></tr>
+    </table>
+    <p class="intro fr" style="margin-top:28px">En plus : le <b>zoo du dragon</b> (banquise, jungle, forêt, plaine, tanière de la manticore), <b>9 personnages à quêtes secondaires</b>, la bibliothèque de Merlin et ses sorts quotidiens.</p>
+    <p class="intro en" style="margin-top:28px">Plus: the <b>dragon zoo</b> (ice floe, jungle, forest, plains, the manticore’s lair), <b>9 side-quest characters</b>, Merlin’s library and its daily spells.</p>
+  </div>
+</section>
+
+<section class="sombre" style="background:var(--nuit2)">
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">Le bestiaire</span><span class="en">The bestiary</span></p>
+    <h2><span class="fr">Des créatures originales</span><span class="en">Original creatures</span></h2>
+    <p class="intro fr" style="margin-bottom:32px">Modèles et textures faits main, dans le style du jeu. Plus de 10 boss et gardiens, chacun avec ses phases. Aucun monstre rare du jeu n’est réutilisé.</p>
+    <p class="intro en" style="margin-bottom:32px">Hand-made models and textures in the game’s style. 10+ bosses and guardians, each with its own phases. None of the game’s rare mobs are reused.</p>
+    <div class="galerie">
+      <div class="pile">
+        <div class="figure"><img src="images/lave_creatures.png" width="1500" height="578" loading="lazy" alt="Le dragon de lave, la salamandre de feu et le petit magma / The lava dragon, the fire salamander and the little magma"></div>
+        <div class="figure"><img src="images/denouement_creatures.png" width="1500" height="414" loading="lazy" alt="La licorne et le vampire / The unicorn and the vampire"></div>
+      </div>
+      <div class="figure" style="background:#CBDDEA"><img src="images/secondaires_ch3.png" width="800" height="840" loading="lazy" alt="Le vieux troll des cavernes, le gnome pêcheur et l’armure du Troll / The old cave troll, the gnome fisherman and the Troll armour"></div>
+    </div>
+    <p class="source"><span class="fr">Planches de travail, étiquettes en français.</span><span class="en">Working sheets, labels in French.</span></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">Objets et minerais</span><span class="en">Items and ores</span></p>
+    <h2><span class="fr">Le minage enrichi, sans casser le jeu</span><span class="en">Richer mining, without breaking the game</span></h2>
+    <div class="figure clair-fond" style="border-color:var(--bord)"><img src="images/argent.png" width="1464" height="564" loading="lazy" alt="L’argent : armure, épée, marteau, hache, pioche, pelle, lingot, rubis, saphir, minerais et blocs polis / Silver: armour, sword, hammer, axe, pickaxe, shovel, ingot, ruby, sapphire, ores and polished blocks"></div>
+    <div class="grille g3" style="margin-top:28px">
+      <div class="carte"><h3><span class="fr">Trois minerais nouveaux</span><span class="en">Three new ores</span></h3><p class="fr">L’argent à mi-descente ; le rubis et le saphir tout au fond, à côté des diamants.</p><p class="en">Silver halfway down; ruby and sapphire at the very bottom, next to diamonds.</p></div>
+      <div class="carte"><h3><span class="fr">Un set complet en argent</span><span class="en">A full silver set</span></h3><p class="fr">Outils, armes et armure entre le fer et le diamant ; l’argent brûle les loups-garous.</p><p class="en">Tools, weapons and armour between iron and diamond; silver burns werewolves.</p></div>
+      <div class="carte"><h3><span class="fr">Des objets de quête</span><span class="en">Quest items</span></h3><p class="fr">Sorts, potions, lanterne d’Igor, armure du Troll, meubles médiévaux à fabriquer.</p><p class="en">Spells, potions, Igor’s lantern, the Troll armour, medieval furniture to craft.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sombre">
+  <div class="wrap duo">
+    <figure style="margin:0">
+      <div class="figure"><img src="images/domaine.png" width="1741" height="981" loading="lazy" alt="Vue du dessus du domaine : en ruine, avec les pièces restaurées, puis à la fin du chapitre 1 / Top-down view of the estate: in ruins, with rooms restored, then at the end of chapter 1"></div>
+      <figcaption><span class="fr">Simulation hors jeu des blocs posés.</span><span class="en">Off-game simulation of placed blocks.</span></figcaption>
+    </figure>
+    <div>
+      <p class="sur-titre"><span class="fr">Le domaine</span><span class="en">The estate</span></p>
+      <h2><span class="fr">Un QG qui renaît au fil de l’aventure</span><span class="en">A base reborn as the adventure unfolds</span></h2>
+      <div class="liste intro">
+        <p class="fr"><b>Posé par l’addon</b> à la première connexion, près du point d’apparition.</p>
+        <p class="en"><b>Placed by the add-on</b> on first login, near the world spawn.</p>
+        <p class="fr"><b>Des pièces qui se bâtissent seules</b> : cuisine, tour de l’alchimiste, salle d’armes, bibliothèque, écurie, mine.</p>
+        <p class="en"><b>Rooms that build themselves</b>: kitchen, alchemist’s tower, armoury, library, stable, mine.</p>
+        <p class="fr"><b>Des habitants qui y vivent</b> et rendent service chaque jour de jeu.</p>
+        <p class="en"><b>Residents who live there</b> and help out every in-game day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">La méthode</span><span class="en">The method</span></p>
+    <h2><span class="fr">Une production outillée et testée</span><span class="en">A tooled and tested production</span></h2>
+    <div class="grille g2">
+      <div class="carte"><h3><span class="fr">Deux validations par nouveauté</span><span class="en">Two sign-offs per feature</span></h3><p class="fr">Une fiche visuelle validée avant d’écrire le code, puis le rendu final validé avant de l’intégrer.</p><p class="en">A visual spec approved before any code is written, then the final result approved before it ships.</p></div>
+      <div class="carte"><h3><span class="fr">Des tests hors jeu</span><span class="en">Off-game testing</span></h3><p class="fr">57 bancs de simulation rejouent l’aventure et contrôlent chaque bloc ; plus de 200 scénarios vérifient les enchaînements.</p><p class="en">57 simulation benches replay the adventure and check every block; 200+ scenarios verify the story flow.</p></div>
+      <div class="carte"><h3><span class="fr">Des mises à jour sans risque</span><span class="en">Safe updates</span></h3><p class="fr">Paquets vérifiés et publiés automatiquement ; une mise à jour n’abîme jamais un monde en cours.</p><p class="en">Packages checked and released automatically; an update never damages a world in progress.</p></div>
+      <div class="carte"><h3><span class="fr">Un contenu facile à étendre</span><span class="en">Easy to extend</span></h3><p class="fr">Quêtes, recettes et réglages dans des fichiers de données lisibles ; un outil de test en jeu pour sauter à n’importe quelle étape.</p><p class="en">Quests, recipes and settings in readable data files; an in-game test tool jumps to any step.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sombre contact" id="contact" style="background:radial-gradient(ellipse at 50% 30%,var(--nuit3) 0%,var(--nuit) 80%)">
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">La proposition</span><span class="en">The proposal</span></p>
+    <h2><span class="fr">Faire du Domaine oublié un produit Marketplace</span><span class="en">Turning The Forgotten Domain into a Marketplace product</span></h2>
+    <p class="intro fr">Je cherche un partenaire Minecraft Marketplace pour l’adaptation, la publication et la mise en avant de l’addon. Je propose une démonstration du chapitre 1 en écran partagé et l’accès aux fichiers.</p>
+    <p class="intro en">I am looking for a Minecraft Marketplace partner for the adaptation, publishing and promotion of the add-on. I can offer a split-screen demo of chapter 1 and access to the files.</p>
+    <p style="margin-top:28px;font-family:'Cinzel',Georgia,serif;font-size:24px;color:var(--parchemin)">Antoine Saint-Père</p>
+    <a class="bouton" id="ecrire" href="#contact"><span class="fr">Me contacter</span><span class="en">Get in touch</span></a>
+    <noscript><p style="margin-top:16px;color:var(--gris)">JavaScript requis pour le bouton de contact. / JavaScript is required for the contact button.</p></noscript>
+  </div>
+</section>
+
+<footer>
+  <span class="fr">Le Domaine oublié · addon non officiel pour Minecraft Bedrock. Minecraft est une marque de Mojang AB, sans lien avec ce projet.</span>
+  <span class="en">The Forgotten Domain · unofficial add-on for Minecraft Bedrock. Minecraft is a trademark of Mojang AB, not affiliated with this project.</span>
+</footer>
+
+<script>
+(function(){
+  var html=document.documentElement;
+  function choisir(l){
+    html.lang=l;
+    document.querySelectorAll('.langues button').forEach(function(b){b.setAttribute('aria-pressed', b.dataset.lang===l?'true':'false')});
+    document.title = l==='en' ? 'The Forgotten Domain · Le Domaine oublié' : 'Le Domaine oublié · The Forgotten Domain';
+    try{localStorage.setItem('langue',l)}catch(e){}
+  }
+  var l=null;
+  try{l=localStorage.getItem('langue')}catch(e){}
+  if(l!=='fr'&&l!=='en'){l=(navigator.language||'fr').toLowerCase().indexOf('fr')===0?'fr':'en'}
+  choisir(l);
+  document.querySelectorAll('.langues button').forEach(function(b){b.addEventListener('click',function(){choisir(b.dataset.lang)})});
+  // L'adresse n'est jamais écrite dans la page : elle est assemblée au clic.
+  var p=['saintpere','antoine'], d=['hotmail','com'];
+  document.getElementById('ecrire').addEventListener('click',function(e){
+    e.preventDefault();
+    var sujet = html.lang==='en' ? 'The Forgotten Domain' : 'Le Domaine oublié';
+    window.location.href='mai'+'lto:'+p.join('.')+'@'+d.join('.')+'?subject='+encodeURIComponent(sujet);
+  });
+})();
+</script>
+</body>
+</html>
