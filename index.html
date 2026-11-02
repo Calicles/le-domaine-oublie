@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -320,11 +320,11 @@ footer{background:var(--nuit);color:var(--gris);font-size:14px;text-align:center
     html.lang=l;
     document.querySelectorAll('.langues button').forEach(function(b){b.setAttribute('aria-pressed', b.dataset.lang===l?'true':'false')});
     document.title = l==='en' ? 'The Forgotten Domain · Le Domaine oublié' : 'Le Domaine oublié · The Forgotten Domain';
-    try{localStorage.setItem('langue',l)}catch(e){}
+    try{localStorage.setItem('langue_v2',l)}catch(e){}
   }
   var l=null;
-  try{l=localStorage.getItem('langue')}catch(e){}
-  if(l!=='fr'&&l!=='en'){l=(navigator.language||'fr').toLowerCase().indexOf('fr')===0?'fr':'en'}
+  try{l=localStorage.getItem('langue_v2')}catch(e){}
+  if(l!=='fr'&&l!=='en'){l='en'}
   choisir(l);
   document.querySelectorAll('.langues button').forEach(function(b){b.addEventListener('click',function(){choisir(b.dataset.lang)})});
   // L'adresse n'est jamais écrite dans la page : elle est assemblée au clic.
