@@ -86,6 +86,10 @@ figcaption{font-size:15px;color:var(--gris);margin-top:10px}
 .galerie{display:grid;grid-template-columns:3fr 2fr;gap:22px;align-items:start}
 .galerie .pile{display:grid;gap:22px}
 .clair-fond{background:#C9C3B6}
+.ecrans{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.ecrans figure{margin:0}
+.ecrans .grand{grid-column:span 2}
+.ecrans img{width:100%;height:auto}
 
 /* contact */
 .contact{text-align:center}
@@ -95,7 +99,8 @@ footer{background:var(--nuit);color:var(--gris);font-size:14px;text-align:center
 @media (max-width:860px){
   section{padding:64px 0}
   .g3,.g4{grid-template-columns:1fr 1fr}
-  .duo,.galerie,.g2{grid-template-columns:1fr}
+  .duo,.galerie,.g2,.ecrans{grid-template-columns:1fr}
+  .ecrans .grand{grid-column:auto}
   .tableau td:first-child{width:auto}
 }
 @media (max-width:540px){
@@ -130,6 +135,21 @@ footer{background:var(--nuit);color:var(--gris);font-size:14px;text-align:center
     <a class="bouton" href="#contact"><span class="fr">Me contacter</span><span class="en">Get in touch</span></a>
   </div>
 </header>
+
+<section class="sombre" id="en-jeu" style="background:var(--nuit2)">
+  <div class="wrap">
+    <p class="sur-titre"><span class="fr">En jeu</span><span class="en">In game</span></p>
+    <h2><span class="fr">Ce que voient les joueurs</span><span class="en">What players see</span></h2>
+    <div class="ecrans">
+      <figure class="grand"><div class="figure"><img src="images/jeu/camp.webp" width="1912" height="867" alt="Le camp des roulottes de Madame Zora, sous un ciel de brume / Madame Zora’s caravan camp under a misty sky"></div><figcaption><span class="fr">Le camp des roulottes de Madame Zora, guide du chapitre 2.</span><span class="en">Madame Zora’s caravan camp, the chapter 2 guide.</span></figcaption></figure>
+      <figure><div class="figure"><img src="images/jeu/merlin.webp" width="1897" height="955" loading="lazy" alt="Merlin dans sa bibliothèque, au domaine / Merlin in his library at the estate"></div><figcaption><span class="fr">La bibliothèque de Merlin, au domaine.</span><span class="en">Merlin’s library, at the estate.</span></figcaption></figure>
+      <figure><div class="figure"><img src="images/jeu/carnet.webp" width="1903" height="823" loading="lazy" alt="Le carnet d’aventure ouvert au bord du marais, cadre parchemin rouge et or / The adventure journal open by the swamp, red and gold parchment frame"></div><figcaption><span class="fr">Le carnet d’aventure, au bord du marais.</span><span class="en">The adventure journal, by the swamp.</span></figcaption></figure>
+      <figure><div class="figure"><img src="images/jeu/champs.webp" width="1665" height="735" loading="lazy" alt="Les champs de blé et leur gardien à tête de citrouille / The wheat fields and their pumpkin-headed guardian"></div><figcaption><span class="fr">Les champs d’Arrick et leur gardien (chapitre 4).</span><span class="en">Arrick’s fields and their guardian (chapter 4).</span></figcaption></figure>
+      <figure><div class="figure"><img src="images/jeu/veuve.webp" width="1891" height="943" loading="lazy" alt="Une habitante du village d’Arrick derrière une grille / A villager of Arrick behind a gate"></div><figcaption><span class="fr">Le village d’Arrick : parler à la veuve (chapitre 4).</span><span class="en">Arrick village: talk to the widow (chapter 4).</span></figcaption></figure>
+    </div>
+    <p class="source"><span class="fr">Captures en jeu, interface en français. La ligne d’objectif en bas de l’écran guide le groupe en permanence.</span><span class="en">In-game captures, French interface. The objective line at the bottom always guides the group.</span></p>
+  </div>
+</section>
 
 <section>
   <div class="wrap">
